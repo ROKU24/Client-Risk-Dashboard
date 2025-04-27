@@ -132,24 +132,12 @@ The risk assessment uses a weighted scoring system based on:
 Full dark mode support with:
 - Consistent theming
 - High contrast ratios
-- Automatic system preference detection
 
 ### Responsive Design
 - Mobile-first approach
 - Adaptive layouts
 - Touch-friendly interfaces
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
