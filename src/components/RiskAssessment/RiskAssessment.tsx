@@ -191,7 +191,7 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
     <div>
       <Space direction="vertical" style={{ width: '100%' }}>
         <div>
-          <Text>Credit Score Impact:</Text>
+          <Text style={{ color: isDarkMode ? '#fff' : undefined }}>Credit Score Impact:</Text>
           <Progress 
             percent={(factors.creditScoreImpact / 40) * 100} 
             format={() => `${factors.creditScoreImpact}/40`}
@@ -199,7 +199,7 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
           />
         </div>
         <div>
-          <Text>Repayment History Impact:</Text>
+          <Text style={{ color: isDarkMode ? '#fff' : undefined }}>Repayment History Impact:</Text>
           <Progress 
             percent={(factors.repaymentHistoryImpact / 30) * 100} 
             format={() => `${factors.repaymentHistoryImpact}/30`}
@@ -207,7 +207,7 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
           />
         </div>
         <div>
-          <Text>Loan-to-Income Ratio Impact:</Text>
+          <Text style={{ color: isDarkMode ? '#fff' : undefined }}>Loan-to-Income Ratio Impact:</Text>
           <Progress 
             percent={(factors.loanToIncomeRatioImpact / 30) * 100} 
             format={() => `${factors.loanToIncomeRatioImpact}/30`}
@@ -228,21 +228,36 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
 
   return (
     <div>
-      <Title level={2}>Risk Assessment</Title>
+      <Title level={2} style={{ color: isDarkMode ? '#fff' : undefined }}>Risk Assessment</Title>
       
-      <Row gutter={16} style={{ marginBottom: '24px' }}>
-        <Col xs={24} lg={24}>
-          <Card title="Risk Score Distribution">
+      <Row gutter={[16, 16]} style={{ marginBottom: '24px' }}>
+        <Col xs={24}>
+          <Card 
+            title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Risk Score Distribution</span>}
+            style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}
+          >
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={riskChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#303030' : '#d9d9d9'} />
+                <XAxis 
+                  dataKey="name" 
+                  stroke={isDarkMode ? '#fff' : '#666'}
+                  style={{ fontSize: '12px' }}
+                />
+                <YAxis 
+                  stroke={isDarkMode ? '#fff' : '#666'}
+                  style={{ fontSize: '12px' }}
+                />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: isDarkMode ? '#1f1f1f' : '#fff',
+                    border: `1px solid ${isDarkMode ? '#303030' : '#d9d9d9'}`,
+                    color: isDarkMode ? '#fff' : undefined
+                  }}
+                />
                 <Legend />
                 <Bar 
                   dataKey="customers" 
-                  fill="#8884d8" 
                   name="Number of Customers" 
                   barSize={60}
                 >
@@ -255,7 +270,8 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
                           : entry.name === 'Medium' 
                             ? '#faad14' 
                             : '#f5222d'
-                      } 
+                      }
+                      style={{ filter: isDarkMode ? 'brightness(1.2)' : undefined }}
                     />
                   ))}
                 </Bar>
@@ -265,14 +281,22 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
         </Col>
       </Row>
 
-      <Card title="Customer Risk Assessment">
+      <Card 
+        title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Customer Risk Assessment</span>}
+        style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}
+      >
         <Space direction="vertical" style={{ width: '100%', marginBottom: '16px' }}>
           <Input
             placeholder="Search by name, ID or risk level"
-            prefix={<SearchOutlined />}
+            prefix={<SearchOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            style={{ width: 300 }}
+            style={{ 
+              width: '100%',
+              maxWidth: 300,
+              backgroundColor: isDarkMode ? '#141414' : undefined,
+              color: isDarkMode ? '#fff' : undefined
+            }}
           />
         </Space>
 
@@ -280,12 +304,24 @@ const RiskAssessment: React.FC<RiskAssessmentProps> = ({
           dataSource={filteredCustomers} 
           columns={columns} 
           rowKey="customerId"
-          pagination={{ pageSize: 5 }}
+          pagination={{ 
+            pageSize: 5,
+            responsive: true,
+            style: { color: isDarkMode ? '#fff' : undefined }
+          }}
           scroll={{ x: 'max-content' }}
+          style={{ color: isDarkMode ? '#fff' : undefined }}
           expandable={{
             expandedRowRender: record => (
               <Collapse ghost>
-                <Panel header="Risk Factors Breakdown" key="1">
+                <Panel 
+                  header={
+                    <span style={{ color: isDarkMode ? '#fff' : undefined }}>
+                      Risk Factors Breakdown
+                    </span>
+                  } 
+                  key="1"
+                >
                   <RiskFactorsBreakdown factors={record.riskFactors} />
                 </Panel>
               </Collapse>

@@ -11,3 +11,95 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Dark Mode Styles */
+[data-theme='dark'] .ant-layout {
+  background-color: #141414;
+}
+
+[data-theme='dark'] .ant-card {
+  background-color: #1f1f1f;
+  border-color: #303030;
+}
+
+[data-theme='dark'] .ant-table {
+  background-color: transparent;
+}
+
+[data-theme='dark'] .ant-table-thead > tr > th {
+  background-color: #1f1f1f;
+  color: #fff;
+  border-bottom: 1px solid #303030;
+}
+
+[data-theme='dark'] .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #303030;
+}
+
+[data-theme='dark'] .ant-table-tbody > tr:hover > td {
+  background-color: #262626 !important;
+}
+
+[data-theme='dark'] .ant-input {
+  background-color: #141414;
+  border-color: #303030;
+  color: #fff;
+}
+
+[data-theme='dark'] .ant-input::placeholder {
+  color: #666;
+}
+
+[data-theme='dark'] .ant-select-selector {
+  background-color: #141414 !important;
+  border-color: #303030 !important;
+  color: #fff !important;
+}
+
+[data-theme='dark'] .ant-modal-content,
+[data-theme='dark'] .ant-modal-header {
+  background-color: #1f1f1f;
+  border-color: #303030;
+}
+
+[data-theme='dark'] .ant-modal-title {
+  color: #fff;
+}
+
+[data-theme='dark'] .ant-form-item-label > label {
+  color: #fff;
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+  .ant-table {
+    font-size: 12px;
+  }
+  
+  .ant-card-head-title {
+    font-size: 16px;
+  }
+  
+  .ant-statistic-title {
+    font-size: 12px;
+  }
+  
+  .ant-statistic-content {
+    font-size: 20px;
+  }
+}
+
+/* Chart Responsiveness */
+.recharts-wrapper {
+  min-height: 300px;
+}
+
+@media (max-width: 768px) {
+  .recharts-wrapper {
+    min-height: 200px;
+  }
+  
+  .recharts-text {
+    font-size: 10px;
+  }
+}

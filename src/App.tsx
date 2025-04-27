@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Layout, Menu, Button, Switch, theme } from 'antd';
+import { Layout, Menu, Button, Switch, theme, ConfigProvider } from 'antd';
 import {
   DashboardOutlined,
   AlertOutlined,
@@ -24,13 +24,21 @@ import { CustomerData } from './types/customer';
 const { Header, Sider, Content } = Layout;
 
 const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(window.innerWidth < 768);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [customerData, setCustomerData] = useState<CustomerData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const { token } = theme.useToken();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCollapsed(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -72,110 +80,144 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider trigger={null} collapsible collapsed={collapsed} theme={isDarkMode ? 'dark' : 'light'}>
-          <div className="logo" style={{ 
-            height: '32px', 
-            margin: '16px', 
-            background: 'rgba(255, 255, 255, 0.2)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: token.colorPrimary,
-            fontWeight: 'bold',
-            fontSize: collapsed ? '12px' : '16px'
-          }}>
-            {collapsed ? 'CRD' : 'Credit Risk Dashboard'}
-          </div>
-          <Menu
+    <ConfigProvider
+      theme={{
+        algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        token: {
+          borderRadius: 6,
+          colorPrimary: '#1890ff',
+        },
+      }}
+    >
+      <Router>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Sider 
+            trigger={null} 
+            collapsible 
+            collapsed={collapsed} 
+            breakpoint="lg"
+            collapsedWidth={window.innerWidth < 576 ? 0 : 80}
+            style={{
+              overflow: 'auto',
+              height: '100vh',
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              bottom: 0,
+            }}
             theme={isDarkMode ? 'dark' : 'light'}
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            items={[
-              {
-                key: '1',
-                icon: <DashboardOutlined />,
-                label: <Link to="/">Dashboard</Link>,
-              },
-              {
-                key: '2',
-                icon: <AlertOutlined />,
-                label: <Link to="/risk">Risk Assessment</Link>,
-              },
-              {
-                key: '3',
-                icon: <SyncOutlined />,
-                label: <Link to="/workflow">Workflow</Link>,
-              },
-            ]}
-          />
-        </Sider>
-        <Layout>
-          <Header style={{ 
-            padding: 0, 
-            background: token.colorBgContainer,
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{ fontSize: '16px', width: 64, height: 64 }}
+          >
+            <div className="logo" style={{ 
+              height: '32px', 
+              margin: '16px', 
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: isDarkMode ? '#fff' : '#001529',
+              fontWeight: 'bold',
+              fontSize: collapsed ? '12px' : '16px'
+            }}>
+              {collapsed ? 'CRD' : 'Credit Risk Dashboard'}
+            </div>
+            <Menu
+              theme={isDarkMode ? 'dark' : 'light'}
+              mode="inline"
+              defaultSelectedKeys={['1']}
+              items={[
+                {
+                  key: '1',
+                  icon: <DashboardOutlined />,
+                  label: <Link to="/">Dashboard</Link>,
+                },
+                {
+                  key: '2',
+                  icon: <AlertOutlined />,
+                  label: <Link to="/risk">Risk Assessment</Link>,
+                },
+                {
+                  key: '3',
+                  icon: <SyncOutlined />,
+                  label: <Link to="/workflow">Workflow</Link>,
+                },
+              ]}
             />
-            <div style={{ marginRight: 24 }}>
+          </Sider>
+          <Layout style={{ marginLeft: collapsed ? (window.innerWidth < 576 ? 0 : 80) : 200, transition: 'all 0.2s' }}>
+            <Header style={{ 
+              padding: '0 16px', 
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1,
+              width: '100%',
+              backgroundColor: isDarkMode ? '#141414' : '#fff',
+            }}>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{ 
+                  fontSize: '16px',
+                  height: 64,
+                  color: isDarkMode ? '#fff' : undefined,
+                }}
+              />
               <Switch
                 checkedChildren="🌙"
                 unCheckedChildren="☀️"
                 checked={isDarkMode}
                 onChange={toggleTheme}
               />
-            </div>
-          </Header>
-          <Content style={{ 
-            margin: '24px 16px', 
-            padding: 24, 
-            background: token.colorBgContainer,
-            borderRadius: token.borderRadiusLG
-          }}>
-            <Routes>
-              <Route 
-                path="/" 
-                element={
-                  <DashboardOverview 
-                    customerData={customerData} 
-                    loading={loading}
-                    isDarkMode={isDarkMode}
-                  />
-                } 
-              />
-              <Route 
-                path="/risk" 
-                element={
-                  <RiskAssessment 
-                    customerData={customerData} 
-                    loading={loading}
-                    isDarkMode={isDarkMode}
-                  />
-                } 
-              />
-              <Route 
-                path="/workflow" 
-                element={
-                  <WorkflowManagement 
-                    customerData={customerData} 
-                    loading={loading} 
-                    updateCustomerStatus={handleUpdateStatus}
-                    isDarkMode={isDarkMode}
-                  />
-                } 
-              />
-            </Routes>
-          </Content>
+            </Header>
+            <Content style={{ 
+              margin: '24px 16px', 
+              padding: '24px',
+              borderRadius: 8,
+              backgroundColor: isDarkMode ? '#141414' : '#fff',
+              minHeight: 280,
+              overflow: 'initial',
+            }}>
+              <Routes>
+                <Route 
+                  path="/" 
+                  element={
+                    <DashboardOverview 
+                      customerData={customerData} 
+                      loading={loading}
+                      isDarkMode={isDarkMode}
+                    />
+                  } 
+                />
+                <Route 
+                  path="/risk" 
+                  element={
+                    <RiskAssessment 
+                      customerData={customerData} 
+                      loading={loading}
+                      isDarkMode={isDarkMode}
+                    />
+                  } 
+                />
+                <Route 
+                  path="/workflow" 
+                  element={
+                    <WorkflowManagement 
+                      customerData={customerData} 
+                      loading={loading} 
+                      updateCustomerStatus={handleUpdateStatus}
+                      isDarkMode={isDarkMode}
+                    />
+                  } 
+                />
+              </Routes>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-    </Router>
+      </Router>
+    </ConfigProvider>
   );
 };
 

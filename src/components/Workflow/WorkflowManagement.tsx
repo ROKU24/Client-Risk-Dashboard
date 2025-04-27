@@ -221,25 +221,59 @@ const WorkflowManagement: React.FC<WorkflowManagementProps> = ({
 
   return (
     <div>
-      <Title level={2}>Workflow Management</Title>
+      <Title level={2} style={{ color: isDarkMode ? '#fff' : undefined }}>Workflow Management</Title>
       
-      <Card title="Customer Workflow">
+      <Card 
+        title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Customer Workflow</span>}
+        style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}
+      >
         <Table 
           dataSource={customersWithRisk} 
-          columns={columns} 
+          columns={columns.map(col => ({
+            ...col,
+            ...(col.title && {
+              title: <span style={{ color: isDarkMode ? '#fff' : undefined }}>{col.title}</span>
+            })
+          }))} 
           rowKey="customerId"
-          pagination={{ pageSize: 5 }}
+          pagination={{ 
+            pageSize: 5,
+            responsive: true,
+            style: { color: isDarkMode ? '#fff' : undefined }
+          }}
           scroll={{ x: 'max-content' }}
+          style={{ color: isDarkMode ? '#fff' : undefined }}
         />
       </Card>
       
       {/* Status Update Modal */}
       <Modal
-        title={`Update Status: ${currentCustomer?.name}`}
+        title={
+          <span style={{ color: isDarkMode ? '#fff' : undefined }}>
+            Update Status: {currentCustomer?.name}
+          </span>
+        }
         open={isModalVisible}
         okText="Update"
         onCancel={() => setIsModalVisible(false)}
         onOk={() => form.submit()}
+        style={{ 
+          color: isDarkMode ? '#fff' : undefined
+        }}
+        styles={{
+          content: {
+            backgroundColor: isDarkMode ? '#1f1f1f' : undefined,
+          },
+          header: {
+            backgroundColor: isDarkMode ? '#1f1f1f' : undefined,
+          },
+          body: {
+            backgroundColor: isDarkMode ? '#1f1f1f' : undefined,
+          },
+          footer: {
+            backgroundColor: isDarkMode ? '#1f1f1f' : undefined,
+          }
+        }}
       >
         <Form
           form={form}
@@ -248,10 +282,15 @@ const WorkflowManagement: React.FC<WorkflowManagementProps> = ({
         >
           <Form.Item
             name="status"
-            label="Status"
+            label={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Status</span>}
             rules={[{ required: true, message: 'Please select a status' }]}
           >
-            <Select>
+            <Select
+              style={{ 
+                backgroundColor: isDarkMode ? '#141414' : undefined,
+                color: isDarkMode ? '#fff' : undefined
+              }}
+            >
               <Option value="Review">Under Review</Option>
               <Option value="Approved">Approved</Option>
               <Option value="Rejected">Rejected</Option>
@@ -259,9 +298,16 @@ const WorkflowManagement: React.FC<WorkflowManagementProps> = ({
           </Form.Item>
           <Form.Item
             name="notes"
-            label="Notes"
+            label={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Notes</span>}
           >
-            <Input.TextArea rows={4} placeholder="Add notes about this decision..." />
+            <Input.TextArea 
+              rows={4} 
+              placeholder="Add notes about this decision..." 
+              style={{ 
+                backgroundColor: isDarkMode ? '#141414' : undefined,
+                color: isDarkMode ? '#fff' : undefined
+              }}
+            />
           </Form.Item>
           
           {currentCustomer && riskScores.find(score => 

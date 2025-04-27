@@ -154,84 +154,114 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
   return (
     <div>
-      <Title level={2}>Dashboard Overview</Title>
+      <Title level={2} style={{ color: isDarkMode ? '#fff' : undefined }}>Dashboard Overview</Title>
       
       {/* Key Metrics Cards */}
-      <Row gutter={16} style={{ marginBottom: '24px' }}>
+      <Row gutter={[16, 16]} style={{ marginBottom: '24px' }}>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}>
             <Statistic
-              title="Total Customers"
+              title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Total Customers</span>}
               value={metrics.totalCustomers}
-              prefix={<UserOutlined />}
+              prefix={<UserOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
+              valueStyle={{ color: isDarkMode ? '#fff' : undefined }}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}>
             <Statistic
-              title="Average Income"
+              title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Average Income</span>}
               value={metrics.averageIncome.toFixed(2)}
               precision={2}
-              prefix={<DollarOutlined />}
+              prefix={<DollarOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
               suffix="USD"
+              valueStyle={{ color: isDarkMode ? '#fff' : undefined }}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}>
             <Statistic
-              title="Outstanding Loans"
+              title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Outstanding Loans</span>}
               value={metrics.totalOutstandingLoans}
               precision={0}
-              prefix={<BankOutlined />}
+              prefix={<BankOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
               suffix="USD"
-              valueStyle={{ color: metrics.totalOutstandingLoans > 50000 ? '#cf1322' : '#3f8600' }}
+              valueStyle={{ 
+                color: metrics.totalOutstandingLoans > 50000 ? '#cf1322' : '#3f8600',
+                filter: isDarkMode ? 'brightness(1.2)' : undefined
+              }}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}>
             <Statistic
-              title="High Risk Customers"
+              title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>High Risk Customers</span>}
               value={metrics.highRiskCustomers}
-              prefix={<AlertOutlined />}
-              valueStyle={{ color: metrics.highRiskCustomers > 0 ? '#cf1322' : '#3f8600' }}
+              prefix={<AlertOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
+              valueStyle={{ 
+                color: metrics.highRiskCustomers > 0 ? '#cf1322' : '#3f8600',
+                filter: isDarkMode ? 'brightness(1.2)' : undefined
+              }}
             />
           </Card>
         </Col>
       </Row>
 
       {/* Charts */}
-      <Row gutter={16} style={{ marginBottom: '24px' }}>
+      <Row gutter={[16, 16]} style={{ marginBottom: '24px' }}>
         <Col xs={24} lg={16}>
-          <Card title="Income vs. Expenses">
+          <Card 
+            title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Income vs. Expenses</span>}
+            style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}
+          >
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={incomeExpenseData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#303030' : '#d9d9d9'} />
+                <XAxis 
+                  dataKey="name" 
+                  stroke={isDarkMode ? '#fff' : '#666'}
+                  style={{ fontSize: '12px' }}
+                />
+                <YAxis 
+                  stroke={isDarkMode ? '#fff' : '#666'}
+                  style={{ fontSize: '12px' }}
+                />
+                <Tooltip 
+                  formatter={(value) => `$${Number(value).toLocaleString()}`}
+                  contentStyle={{
+                    backgroundColor: isDarkMode ? '#1f1f1f' : '#fff',
+                    border: `1px solid ${isDarkMode ? '#303030' : '#d9d9d9'}`,
+                    color: isDarkMode ? '#fff' : undefined
+                  }}
+                />
                 <Legend />
                 <Line 
                   type="monotone" 
                   dataKey="income" 
                   stroke="#8884d8" 
                   activeDot={{ r: 8 }} 
-                  name="Monthly Income" 
+                  name="Monthly Income"
+                  strokeWidth={2}
                 />
                 <Line 
                   type="monotone" 
                   dataKey="expenses" 
                   stroke="#82ca9d" 
-                  name="Monthly Expenses" 
+                  name="Monthly Expenses"
+                  strokeWidth={2}
                 />
               </LineChart>
             </ResponsiveContainer>
           </Card>
         </Col>
         <Col xs={24} lg={8}>
-          <Card title="Risk Distribution">
+          <Card 
+            title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Risk Distribution</span>}
+            style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}
+          >
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -242,13 +272,34 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) => (
+                    <text
+                      x={0}
+                      y={0}
+                      fill={isDarkMode ? '#fff' : '#000'}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                    >
+                      {`${name}: ${(percent * 100).toFixed(0)}%`}
+                    </text>
+                  )}
                 >
                   {riskDistributionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={RISK_COLORS[index % RISK_COLORS.length]} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={RISK_COLORS[index % RISK_COLORS.length]}
+                      style={{ filter: isDarkMode ? 'brightness(1.2)' : undefined }}
+                    />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => `${Number(value)} customers`} />
+                <Tooltip 
+                  formatter={(value) => `${Number(value)} customers`}
+                  contentStyle={{
+                    backgroundColor: isDarkMode ? '#1f1f1f' : '#fff',
+                    border: `1px solid ${isDarkMode ? '#303030' : '#d9d9d9'}`,
+                    color: isDarkMode ? '#fff' : undefined
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </Card>
@@ -256,13 +307,21 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       </Row>
 
       {/* Customer Data Table */}
-      <Card title="Customer Data">
+      <Card 
+        title={<span style={{ color: isDarkMode ? '#fff' : undefined }}>Customer Data</span>}
+        style={{ backgroundColor: isDarkMode ? '#1f1f1f' : undefined }}
+      >
         <Table 
           dataSource={customerData} 
           columns={columns} 
           rowKey="customerId"
-          pagination={{ pageSize: 5 }}
+          pagination={{ 
+            pageSize: 5,
+            responsive: true,
+            style: { color: isDarkMode ? '#fff' : undefined }
+          }}
           scroll={{ x: 'max-content' }}
+          style={{ color: isDarkMode ? '#fff' : undefined }}
         />
       </Card>
     </div>
