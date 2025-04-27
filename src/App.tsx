@@ -109,14 +109,22 @@ const App: React.FC = () => {
           >
             <div className="logo" style={{ 
               height: '32px', 
-              margin: '16px', 
-              background: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+              margin: '12px', 
+              background: 'transparent',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              color: isDarkMode ? '#fff' : '#001529',
-              fontWeight: 'bold',
-              fontSize: collapsed ? '12px' : '16px'
+              color: token.colorPrimary,
+              fontWeight: '600',
+              fontSize: collapsed ? '11px' : '14px',
+              letterSpacing: '0.2px',
+              transition: 'all 0.3s',
+              userSelect: 'none',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              paddingLeft: '4px',
+              paddingRight: '4px'
             }}>
               {collapsed ? 'CRD' : 'Credit Risk Dashboard'}
             </div>
@@ -143,9 +151,14 @@ const App: React.FC = () => {
               ]}
             />
           </Sider>
-          <Layout style={{ marginLeft: collapsed ? (window.innerWidth < 576 ? 0 : 80) : 200, transition: 'all 0.2s' }}>
+          <Layout style={{ 
+            marginLeft: collapsed ? (window.innerWidth < 576 ? 0 : 80) : 200, 
+            transition: 'all 0.2s',
+            position: 'relative',
+            width: 'auto'
+          }}>
             <Header style={{ 
-              padding: '0 16px', 
+              padding: '0 12px', 
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -154,6 +167,7 @@ const App: React.FC = () => {
               zIndex: 1,
               width: '100%',
               backgroundColor: isDarkMode ? '#141414' : '#fff',
+              minHeight: '64px'
             }}>
               <Button
                 type="text"
@@ -170,6 +184,11 @@ const App: React.FC = () => {
                 unCheckedChildren="☀️"
                 checked={isDarkMode}
                 onChange={toggleTheme}
+                style={{
+                  marginRight: '8px',
+                  position: 'relative',
+                  zIndex: 2
+                }}
               />
             </Header>
             <Content style={{ 
@@ -178,7 +197,12 @@ const App: React.FC = () => {
               borderRadius: 8,
               backgroundColor: isDarkMode ? '#141414' : '#fff',
               minHeight: 280,
-              overflow: 'initial',
+              maxWidth: '1200px',
+              width: '100%',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              overflow: 'visible',
+              position: 'relative'
             }}>
               <Routes>
                 <Route 
