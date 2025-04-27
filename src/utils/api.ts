@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CustomerData } from '../types/customer';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:50001/api';
+const API_URL = 'https://client-risk-dashboard-backend.vercel.app/api';
 
 // Create axios instance with default config
 const axiosInstance = axios.create({
