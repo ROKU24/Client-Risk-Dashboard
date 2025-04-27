@@ -1,46 +1,158 @@
-# Getting Started with Create React App
+# Credit Risk Dashboard 🎯
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive web application for managing and analyzing credit risk assessments built with React, TypeScript, and Ant Design.
 
-## Available Scripts
+![Dashboard Screenshot](screenshots/dashboard.png)
 
-In the project directory, you can run:
+## 🌟 Features
 
-### `npm start`
+### 📊 Dashboard Overview
+- Real-time customer financial metrics
+- Interactive income vs. expenses charts
+- Risk distribution visualization
+- Customer data table with sorting and filtering
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 🔍 Risk Assessment
+- Sophisticated risk scoring algorithm
+- Risk factor breakdown analysis
+- Visual risk indicators and trends
+- Customizable risk thresholds
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 🔄 Workflow Management
+- Status tracking (Review, Approved, Rejected)
+- High-risk alerts
+- Automated workflow triggers
+- Decision notes and history
 
-### `npm test`
+## 🛠️ Technology Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Frontend
+- React 19
+- TypeScript
+- Ant Design UI Framework
+- Recharts for data visualization
+- React Router for navigation
 
-### `npm run build`
+### Backend
+- Node.js
+- Express
+- TypeScript
+- RESTful API architecture
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- Git
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/credit-risk-dashboard.git
+cd credit-risk-dashboard
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Install dependencies for server
+```bash
+cd server
+npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Install dependencies for client
+```bash
+cd ../client
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+4. Start the development server
+```bash
+# In server directory
+npm run dev
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# In client directory (new terminal)
+npm start
+```
 
-## Learn More
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:50001
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📋 API Documentation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Endpoints
+
+#### Get Customers
+```http
+GET /api/customers
+```
+Returns a list of all customers with their financial data.
+
+#### Update Customer Status
+```http
+PUT /api/customers/:id
+```
+Update a customer's approval status.
+
+#### High Risk Alerts
+```http
+POST /api/alerts
+```
+Log high-risk customer approvals.
+
+## 🏗️ Project Structure
+
+```
+credit-risk-dashboard/
+├── client/                 # Frontend React application
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── utils/         # Utility functions
+│   │   ├── types/        # TypeScript type definitions
+│   │   └── App.tsx       # Main application component
+│   └── public/           # Static assets
+├── server/                # Backend Node.js server
+│   ├── data/            # JSON data storage
+│   ├── controllers/     # Request handlers
+│   ├── routes/         # API routes
+│   └── index.ts        # Server entry point
+└── README.md            # Project documentation
+```
+
+## 🎨 Features in Detail
+
+### Risk Scoring Algorithm
+The risk assessment uses a weighted scoring system based on:
+- Credit Score (40%)
+- Loan Repayment History (30%)
+- Loan-to-Income Ratio (30%)
+
+### Dark Mode Support
+Full dark mode support with:
+- Consistent theming
+- High contrast ratios
+- Automatic system preference detection
+
+### Responsive Design
+- Mobile-first approach
+- Adaptive layouts
+- Touch-friendly interfaces
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Ant Design](https://ant.design/) for the beautiful UI components
+- [Recharts](https://recharts.org/) for the charting library
+- [TypeScript](https://www.typescriptlang.org/) for type safety
