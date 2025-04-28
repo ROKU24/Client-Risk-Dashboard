@@ -2,7 +2,7 @@
 
 A modern, responsive web application for managing and analyzing credit risk assessments built with React, TypeScript, and Ant Design.
 
-![Dashboard Screenshot](screenshots/dashboard.png)
+![Dashboard Screenshot](/credit-risk-dashboard/client/public/screenshots/dashboard_Dark.png)
 
 ## 🌟 Features
 
@@ -50,7 +50,11 @@ A modern, responsive web application for managing and analyzing credit risk asse
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/credit-risk-dashboard.git
+
+Client: git clone https://github.com/ROKU24/Client-Risk-Dashboard
+
+Server: git clone https://github.com/ROKU24/client-risk-dashboard-backend
+
 cd credit-risk-dashboard
 ```
 
@@ -123,10 +127,34 @@ credit-risk-dashboard/
 ## 🎨 Features in Detail
 
 ### Risk Scoring Algorithm
-The risk assessment uses a weighted scoring system based on:
-- Credit Score (40%)
-- Loan Repayment History (30%)
-- Loan-to-Income Ratio (30%)
+The risk assessment uses a sophisticated weighted scoring system based on three key factors:
+
+#### Credit Score (40% of total risk score)
+- Excellent (800-850): 0-10 points
+- Very Good (740-799): 11-15 points
+- Good (670-739): 16-25 points
+- Fair (580-669): 26-35 points
+- Poor (300-579): 36-40 points
+
+#### Loan Repayment History (30% of total risk score)
+- Based on the last 6 months of payments
+- Each missed payment adds 5 points
+- Perfect payment history: 0 points
+- Multiple consecutive missed payments have increased weight
+- Maximum impact: 30 points
+
+#### Loan-to-Income Ratio (30% of total risk score)
+- < 20%: 0-5 points (Low risk)
+- 20-36%: 6-15 points (Moderate risk)
+- 37-42%: 16-25 points (High risk)
+- > 42%: 26-30 points (Very high risk)
+
+#### Final Risk Score Interpretation
+- 0-40: Low Risk (Green)
+- 41-70: Medium Risk (Orange)
+- 71-100: High Risk (Red)
+
+The system automatically calculates these scores and provides visual indicators for quick assessment. Risk factors are weighted and normalized to provide a final score out of 100, where lower scores indicate lower risk.
 
 ### Dark Mode Support
 Full dark mode support with:
